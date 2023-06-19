@@ -1,28 +1,36 @@
-const express = require('express')
+const express = require("express");
 //for database
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-//connect to database
-//mongodb database
-mongoose
-	.connect(
-		'mongodb+srv://admin:admin@cluster1.rgcl4jk.mongodb.net/Employee?retryWrites=true&w=majority',
-		{
-			useNewUrlParser: true,
-		}
-	)
-	.then(() => console.log('--> MongoDB Connected'))
-	.catch((error) => console.log('--> ERROR: ', error))
+// Apollo Server
+const { ApolloServer } = require("apollo-server-express");
+const { typeDefs } = require("./graphql/typeDefs");
+const { resolvers } = require("./graphql/resolvers");
 
-const app = express()
-const port = 5000
+const port = 5000;
 
-//middleware
-app.use(express.json())
+const startServer = async () => {
+	const app = express();
 
-//routes
-// app.use('/api/employee', require('./routes/employee'))
+	const server = new ApolloServer({
+		typeDefs,
+		resolvers,
+	});
 
-app.listen(port, () => {
-	console.log(`--> Server is listening at http://localhost:${port}`)
-})
+	await server.start();
+
+	server.applyMiddleware({ app });
+
+	await mongoose.connect("mongodb+srv://vivek:vivek@test.gkbzj8b.mongodb.net/Assignment1?retryWrites=true&w=majority");
+	
+	app.listen(port, () => {
+		console.log(`--> Server is listening at http://localhost:${port}`);
+	});
+};
+
+try {
+	startServer();
+}
+catch (err) {
+	console.log("--> Error :", err);
+}
