@@ -22,7 +22,8 @@ const Admin = () => {
 	}, [data])
 
 	if (loading) return <LoadingSpinner />
-	if (error) return <p>Error : {error}</p>
+	// If error occurs console log the error
+	if (error) console.log('--> Error :', error)
 
 	// Return the list of employees in table format
 	return (
@@ -58,42 +59,52 @@ const Admin = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{employeeList.map((employee) => (
-								<tr key={employee.id}>
-									<td>{employee.firstName}</td>
-									<td>{employee.lastName}</td>
-									<td>{employee.age}</td>
-									<td>
-										{employee.dateOfJoining.split('T')[0]}
-									</td>
-									<td>{employee.title}</td>
-									<td>{employee.department}</td>
-									<td>{employee.employeeType}</td>
-									{/* If currentStatus is true then show Working*/}
-									{employee.currentStatus ? (
-										<td>Working</td>
-									) : (
-										<td>Retired</td>
-									)}
-									<td>
-										<Button
-											variant='primary'
-											onClick={() =>
-												navigate(
-													'/edit-employee'.concat(
-														'/' + employee.id
-													)
-												)
+							{employeeList.length > 0 ? (
+								employeeList.map((employee) => (
+									<tr key={employee.id}>
+										<td>{employee.firstName}</td>
+										<td>{employee.lastName}</td>
+										<td>{employee.age}</td>
+										<td>
+											{
+												employee.dateOfJoining.split(
+													'T'
+												)[0]
 											}
-										>
-											Edit
-										</Button>
-									</td>
-									<td>
-										<Button variant='danger'>Delete</Button>
-									</td>
-								</tr>
-							))}
+										</td>
+										<td>{employee.title}</td>
+										<td>{employee.department}</td>
+										<td>{employee.employeeType}</td>
+										{/* If currentStatus is true then show Working*/}
+										{employee.currentStatus ? (
+											<td>Working</td>
+										) : (
+											<td>Retired</td>
+										)}
+										<td>
+											<Button
+												variant='primary'
+												onClick={() =>
+													navigate(
+														'/edit-employee'.concat(
+															'/' + employee.id
+														)
+													)
+												}
+											>
+												Edit
+											</Button>
+										</td>
+										<td>
+											<Button variant='danger'>
+												Delete
+											</Button>
+										</td>
+									</tr>
+								))
+							) : (
+								<p>No employee found</p>
+							)}
 						</tbody>
 					</Table>
 				</Row>

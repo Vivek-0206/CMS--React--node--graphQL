@@ -18,18 +18,23 @@ const EmployeeDirectory = () => {
 	}, [data])
 
 	if (loading) return <LoadingSpinner />
-	if (error) return <p>Error : {error}</p>
+	// If error occurs console log the error
+	if (error) console.log('--> Error :', error)
 
 	return (
 		<>
 			<EmployeeSearch />
 			<br />
 			<Row>
-				{employeeList.map((employee) => (
-					<Col key={employee.id}>
-						<Cards employee={employee} />
-					</Col>
-				))}
+				{employeeList.length > 0 ? (
+					employeeList.map((employee) => (
+						<Col key={employee.id}>
+							<Cards employee={employee} />
+						</Col>
+					))
+				) : (
+					<p>No employee found</p>
+				)}
 			</Row>
 		</>
 	)

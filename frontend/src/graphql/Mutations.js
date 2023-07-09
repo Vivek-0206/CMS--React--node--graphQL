@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import {gql} from '@apollo/client'
 
 // Create mutation to add a new employee
 export const ADD_EMPLOYEE_MUTATION = gql`
@@ -8,7 +8,7 @@ export const ADD_EMPLOYEE_MUTATION = gql`
 			lastName
 			age
 			dateOfJoining
-			title	
+			title
 			department
 			employeeType
 			currentStatus
@@ -19,13 +19,16 @@ export const ADD_EMPLOYEE_MUTATION = gql`
 // Create mutation to update an employee
 export const UPDATE_EMPLOYEE_MUTATION = gql`
 	mutation Mutation($employeeId: String, $employeeDetails: EmployeeInput) {
-		updateEmployee(employeeId: $employeeId, employeeDetails: $employeeDetails) {
+		updateEmployee(
+			employeeId: $employeeId
+			employeeDetails: $employeeDetails
+		) {
 			id
 			firstName
 			lastName
 			age
 			dateOfJoining
-			title	
+			title
 			department
 			employeeType
 			currentStatus
@@ -42,7 +45,7 @@ export const DELETE_EMPLOYEE_MUTATION = gql`
 			lastName
 			age
 			dateOfJoining
-			title	
+			title
 			department
 			employeeType
 			currentStatus

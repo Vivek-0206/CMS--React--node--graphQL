@@ -15,7 +15,7 @@ function App() {
 			<Routes>
 				<Route index element={<Home />} />
 				<Route path='home' element={<Home />} />
-				<Route  path='admin' element={<Admin />} />
+				<Route path='admin' element={<Admin />} />
 				<Route path='add-employee' element={<EmployeeCreate />} />
 				<Route path='edit-employee/:id' element={<EmployeeEdit />} />
 				<Route path='*' element={<NoMatch />} />

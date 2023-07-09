@@ -8,7 +8,7 @@ export const GET_EMPLOYEE_LIST_QUERY = gql`
 			lastName
 			age
 			dateOfJoining
-			title	
+			title
 			department
 			employeeType
 			currentStatus
@@ -24,7 +24,7 @@ export const GET_EMPLOYEE_DETAILS_QUERY = gql`
 			lastName
 			age
 			dateOfJoining
-			title	
+			title
 			department
 			employeeType
 			currentStatus
