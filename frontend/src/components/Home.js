@@ -1,5 +1,6 @@
 // Create home component
 import Container from 'react-bootstrap/esm/Container'
+
 import EmployeeDirectory from './EmployeeDirectory'
 
 const Home = () => {

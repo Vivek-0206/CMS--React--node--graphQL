@@ -1,19 +1,27 @@
 import Card from 'react-bootstrap/Card'
 
 const Cards = ({employee}) => {
+	const style = {
+		margin: '1rem',
+		cursor: 'pointer',
+		border: '1px solid #ccc',
+		borderRadius: '15px',
+		boxShadow: '0 0 10px #ccc',
+	}
+
 	return (
-		<Card style={{width: '18rem'}}>
+		<Card className='employeeCard' style={style}>
+			<Card.Header className='text-center'>
+				{employee.firstName} {employee.lastName}
+			</Card.Header>
+
 			<Card.Body>
-				<Card.Title>
-					{employee.firstName} {employee.lastName}
-				</Card.Title>
-				<Card.Subtitle className='mb-2 text-muted'>
-					{employee.title} - {employee.employeeType}
+				<Card.Title>{employee.title}</Card.Title>
+				<Card.Subtitle className='mb-1 text-muted'>
+					{employee.employeeType}
 				</Card.Subtitle>
-				<Card.Text>
-					<p>Age: {employee.age}</p>
-					<p>Department: {employee.department}</p>
-				</Card.Text>
+				<Card.Text>Age: {employee.age}</Card.Text>
+				<Card.Text>Department: {employee.department}</Card.Text>
 			</Card.Body>
 		</Card>
 	)

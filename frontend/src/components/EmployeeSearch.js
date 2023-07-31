@@ -1,8 +1,8 @@
 // Create search bar for employee search
 
-import Container from 'react-bootstrap/esm/Container'
-import {Col, Form, Row} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
+import {Col, Form, Row} from 'react-bootstrap'
+import Container from 'react-bootstrap/esm/Container'
 
 const EmployeeSearch = () => {
 	return (

@@ -16,9 +16,25 @@ export const GET_EMPLOYEE_LIST_QUERY = gql`
 	}
 `
 
-export const GET_EMPLOYEE_DETAILS_QUERY = gql`
-	query Query($employeeId: String) {
-		getEmployeeDetails(employeeId: $employeeId) {
+export const GET_EMPLOYEE_BY_ID = gql`
+	query Query($employeeId: ID!) {
+		getEmployeeById(employeeId: $employeeId) {
+			id
+			firstName
+			lastName
+			age
+			dateOfJoining
+			title
+			department
+			employeeType
+			currentStatus
+		}
+	}
+`
+
+export const GET_EMPLOYEE_BY_EMPLOYEE_TYPE = gql`
+	query Query($employeeType: String!) {
+		getEmployeeByEmployeeType(employeeType: $employeeType) {
 			id
 			firstName
 			lastName

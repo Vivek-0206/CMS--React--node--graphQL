@@ -18,19 +18,14 @@ export const ADD_EMPLOYEE_MUTATION = gql`
 
 // Create mutation to update an employee
 export const UPDATE_EMPLOYEE_MUTATION = gql`
-	mutation Mutation($employeeId: String, $employeeDetails: EmployeeInput) {
+	mutation Mutation($employeeId: ID, $employeeDetails: EmployeeUpdateInput) {
 		updateEmployee(
 			employeeId: $employeeId
 			employeeDetails: $employeeDetails
 		) {
 			id
-			firstName
-			lastName
-			age
-			dateOfJoining
 			title
 			department
-			employeeType
 			currentStatus
 		}
 	}
@@ -38,17 +33,9 @@ export const UPDATE_EMPLOYEE_MUTATION = gql`
 
 // Create mutation to delete an employee
 export const DELETE_EMPLOYEE_MUTATION = gql`
-	mutation Mutation($employeeId: String) {
+	mutation Mutation($employeeId: ID) {
 		deleteEmployee(employeeId: $employeeId) {
 			id
-			firstName
-			lastName
-			age
-			dateOfJoining
-			title
-			department
-			employeeType
-			currentStatus
 		}
 	}
 `

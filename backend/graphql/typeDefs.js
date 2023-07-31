@@ -18,6 +18,8 @@ const typeDefs = gql`
 	type Query {
 		hello: String
 		getAllEmployee: [Employee]
+		getEmployeeById(employeeId: ID): Employee
+		getEmployeeByEmployeeType(employeeType: String): [Employee]
 	}
 
 	input EmployeeInput {
@@ -31,8 +33,20 @@ const typeDefs = gql`
 		currentStatus: Boolean
 	}
 
+	input EmployeeUpdateInput {
+		id: ID
+		title: String
+		department: String
+		currentStatus: Boolean
+	}
+
 	type Mutation {
 		createEmployee(employeeDetails: EmployeeInput): Employee
+		updateEmployee(
+			employeeId: ID
+			employeeDetails: EmployeeUpdateInput
+		): Employee
+		deleteEmployee(employeeId: ID): Employee
 	}
 `
 

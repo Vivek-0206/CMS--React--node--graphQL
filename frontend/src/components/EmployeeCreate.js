@@ -1,30 +1,36 @@
 import {useMutation} from '@apollo/client'
-import React, {useState} from 'react'
-import {ADD_EMPLOYEE_MUTATION} from '../graphql/Mutations'
+import {useNavigate} from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/esm/Container'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+import React, {useState} from 'react'
 import Toast from 'react-bootstrap/Toast'
 
-function EmployeeCreate() {
-	const [formErrors, setFormErrors] = useState(null)
-	const [isSuccess, setIsSuccess] = useState(false)
+import {ADD_EMPLOYEE_MUTATION} from '../graphql/Mutations'
+import {GET_EMPLOYEE_LIST_QUERY} from '../graphql/Queries'
 
-	const [firstName, setfirstName] = useState('')
-	const [lastName, setlastName] = useState('')
-	const [age, setage] = useState('')
-	const [dateOfJoining, setdateOfJoining] = useState('')
-	const [department, setdepartment] = useState('')
-	const [title, settitle] = useState('')
-	const [employeeType, setemployeeType] = useState('')
+function EmployeeCreate() {
+	const navigate = useNavigate()
+	// For form validation
+	const [formErrors, setFormErrors] = useState(null)
+
+	const [isSuccess, setIsSuccess] = useState(false)
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setLastName] = useState('')
+	const [age, setAge] = useState('')
+	const [dateOfJoining, setDateOfJoining] = useState('')
+	const [department, setDepartment] = useState('')
+	const [title, setTitle] = useState('')
+	const [employeeType, setEmployeeType] = useState('')
 	// default value for CurrentStatus would be 1 (working)
-	const [currentStatus, setcurrentStatus] = useState(true)
+	const [currentStatus, setCurrentStatus] = useState(true)
 
 	const [createEmployee, {error}] = useMutation(ADD_EMPLOYEE_MUTATION)
 
-	const [toastSuccess, settoastSuccess] = useState(true)
-	const [toastError, settoastError] = useState(true)
+	// For Toast messages
+	const [toastSuccess, setToastSuccess] = useState(true)
 
+	// For Handle Submit function
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		const formErrors = {
@@ -58,24 +64,39 @@ function EmployeeCreate() {
 			variables: {
 				employeeDetails,
 			},
-		})
 
-		if (error) {
-			console.log('Error', error)
-			settoastError(true)
-		} else {
-			setIsSuccess(true)
-			settoastSuccess(true)
-			setFormErrors(null)
-			setfirstName('')
-			setlastName('')
-			setage('')
-			setdateOfJoining('')
-			setdepartment('')
-			settitle('')
-			setemployeeType('')
-			setcurrentStatus('')
-		}
+			// Update the cache
+			update(cache, {data: {createEmployee}}) {
+				const data = cache.readQuery({query: GET_EMPLOYEE_LIST_QUERY})
+				cache.writeQuery({
+					query: GET_EMPLOYEE_LIST_QUERY,
+					data: {
+						getAllEmployee: [
+							createEmployee,
+							...data.getAllEmployee,
+						],
+					},
+				})
+			},
+
+			// Refetch the GET_EMPLOYEE_LIST_QUERY to update the list
+			refetchQueries: [
+				{
+					query: GET_EMPLOYEE_LIST_QUERY,
+				},
+			],
+
+			// Navigate to the list page
+			onCompleted: () => {
+				setIsSuccess(true)
+				navigate('/')
+			},
+
+			// Error handling
+			onError: (error) => {
+				console.log('Error', error)
+			},
+		})
 	}
 	return (
 		<>
@@ -84,7 +105,7 @@ function EmployeeCreate() {
 					<Toast
 						bg='dark'
 						show={toastSuccess}
-						onClose={() => settoastSuccess(false)}
+						onClose={() => setToastSuccess(false)}
 						delay={3000}
 						autohide
 					>
@@ -96,24 +117,6 @@ function EmployeeCreate() {
 						</Toast.Body>
 					</Toast>
 				)}
-
-				{error && (
-					<Toast
-						bg='dark'
-						show={toastError}
-						onClose={() => settoastError(false)}
-						delay={3000}
-						autohide
-					>
-						<Toast.Header>
-							<strong className='me-auto'> Error </strong>
-						</Toast.Header>
-						<Toast.Body className='text-white'>
-							Something went wrong while adding employee. Please
-							try again later.
-						</Toast.Body>
-					</Toast>
-				)}
 				<h1> Add Employee </h1>
 				<Form onSubmit={handleSubmit}>
 					<Form.Group className='mb-3' controlId='formBasicFirstName'>
@@ -122,7 +125,7 @@ function EmployeeCreate() {
 							type='text'
 							placeholder='Enter First Name'
 							value={firstName}
-							onChange={(e) => setfirstName(e.target.value)}
+							onChange={(e) => setFirstName(e.target.value)}
 						/>
 						{formErrors && formErrors.firstName && (
 							<Form.Text className='text-danger'>
@@ -137,7 +140,7 @@ function EmployeeCreate() {
 							type='text'
 							placeholder='Enter Last Name'
 							value={lastName}
-							onChange={(e) => setlastName(e.target.value)}
+							onChange={(e) => setLastName(e.target.value)}
 						/>
 						{formErrors && formErrors.lastName && (
 							<Form.Text className='text-danger'>
@@ -152,7 +155,7 @@ function EmployeeCreate() {
 							type='number'
 							placeholder='Enter Age'
 							value={age}
-							onChange={(e) => setage(e.target.value)}
+							onChange={(e) => setAge(e.target.value)}
 						/>
 						{formErrors && formErrors.age && (
 							<Form.Text className='text-danger'>
@@ -167,7 +170,7 @@ function EmployeeCreate() {
 							type='date'
 							placeholder='Enter Date Of Joining'
 							value={dateOfJoining}
-							onChange={(e) => setdateOfJoining(e.target.value)}
+							onChange={(e) => setDateOfJoining(e.target.value)}
 						/>
 						{formErrors && formErrors.dateOfJoining && (
 							<Form.Text className='text-danger'>
@@ -184,7 +187,7 @@ function EmployeeCreate() {
 						<Form.Select
 							aria-label='Default select example'
 							value={department}
-							onChange={(e) => setdepartment(e.target.value)}
+							onChange={(e) => setDepartment(e.target.value)}
 						>
 							<option>Open this select menu</option>
 							<option value='IT'>IT</option>
@@ -205,7 +208,7 @@ function EmployeeCreate() {
 						<Form.Select
 							aria-label='Default select example'
 							value={title}
-							onChange={(e) => settitle(e.target.value)}
+							onChange={(e) => setTitle(e.target.value)}
 						>
 							<option>Open this select menu</option>
 							<option value='Employee'>Employee</option>
@@ -226,7 +229,7 @@ function EmployeeCreate() {
 						<Form.Select
 							aria-label='Default select example'
 							value={employeeType}
-							onChange={(e) => setemployeeType(e.target.value)}
+							onChange={(e) => setEmployeeType(e.target.value)}
 						>
 							<option>Open this select menu</option>
 							<option value='Full-time'>Full-Time</option>
@@ -248,7 +251,7 @@ function EmployeeCreate() {
 							type="text"
 							placeholder="Enter Current Status"
 							value={currentStatus}
-							onChange={(e) => setcurrentStatus(e.target.value)}
+							onChange={(e) => setCurrentStatus(e.target.value)}
 						/>
 
 						{formErrors && formErrors.currentStatus && (
