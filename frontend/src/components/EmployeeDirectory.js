@@ -79,7 +79,7 @@ const EmployeeDirectory = () => {
 	return (
 		<>
 			<Row>
-				<Col className='col-md-6 col-sm-12'>
+				<Col xs={12} md={6}>
 					<Form.Group className='mb-3' controlId='formBasicEmail'>
 						<Form.Label>Search</Form.Label>
 						<Form.Control
@@ -90,7 +90,7 @@ const EmployeeDirectory = () => {
 						/>
 					</Form.Group>
 				</Col>
-				<Col className='col-md-6 col-sm-12'>
+				<Col xs={12} md={6}>
 					<Form.Group className='mb-3' controlId='formBasicPassword'>
 						<Form.Label>Select Employee Type:</Form.Label>
 						<Form.Select
@@ -118,7 +118,9 @@ const EmployeeDirectory = () => {
 				{employeeList.length > 0 ? (
 					employeeList.map((employee) => (
 						<Col
-							className='col-lg-4 col-md-6 col-sm-12'
+							xs={12}
+							md={6}
+							lg={4}
 							key={employee.id}
 							onClick={() => {
 								navigate(`/employee-list/${employee.id}`)
