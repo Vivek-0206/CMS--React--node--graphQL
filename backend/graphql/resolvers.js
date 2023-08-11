@@ -27,7 +27,7 @@ const resolvers = {
 			} catch (err) {
 				console.log('--> Error :', err)
 			}
-		}
+		},
 	},
 	Mutation: {
 		// Create Employee
