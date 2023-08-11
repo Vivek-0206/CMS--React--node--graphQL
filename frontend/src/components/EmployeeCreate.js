@@ -23,9 +23,9 @@ function EmployeeCreate() {
 	const [title, setTitle] = useState('')
 	const [employeeType, setEmployeeType] = useState('')
 	// default value for CurrentStatus would be 1 (working)
-	const [currentStatus, setCurrentStatus] = useState(true)
+	const [currentStatus] = useState(true)
 
-	const [createEmployee, {error}] = useMutation(ADD_EMPLOYEE_MUTATION)
+	const [createEmployee] = useMutation(ADD_EMPLOYEE_MUTATION)
 
 	// For Toast messages
 	const [toastSuccess, setToastSuccess] = useState(true)

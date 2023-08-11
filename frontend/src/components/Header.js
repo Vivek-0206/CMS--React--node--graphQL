@@ -7,9 +7,9 @@ import Navbar from 'react-bootstrap/Navbar'
 import React from 'react'
 
 const Header = () => (
-	<Navbar bg='dark' data-bs-theme='dark'>
+	<Navbar expand='lg' bg='dark' data-bs-theme='dark'>
 		<Container>
-			<Navbar.Brand>Assignment 2: CMS</Navbar.Brand>
+			<Navbar.Brand>Group Project: CMS</Navbar.Brand>
 			<Navbar.Toggle aria-controls='basic-navbar-nav' />
 			<Navbar.Collapse id='basic-navbar-nav'>
 				<Nav className='ms-auto'>

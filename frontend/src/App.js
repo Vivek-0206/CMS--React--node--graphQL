@@ -15,16 +15,28 @@ function App() {
 	return (
 		<>
 			<Header />
-			<Routes>
-				<Route index element={<Home />} />
-				<Route path='home' element={<Home />} />
-				<Route path='admin' element={<Admin />} />
-				<Route path='employee-list' element={<Home />} />
-				<Route path='employee-list/:id' element={<EmployeeDetails />} />
-				<Route path='add-employee' element={<EmployeeCreate />} />
-				<Route path='edit-employee/:id' element={<EmployeeEdit />} />
-				<Route path='*' element={<NoMatch />} />
-			</Routes>
+			<main className='main'>
+				<Routes>
+					<Route index element={<Home />} />
+					<Route path='home' element={<Home />} />
+					<Route path='admin' element={<Admin />} />
+					<Route path='employee-list' element={<Home />} />
+					<Route
+						path='employee-list/:id'
+						element={<EmployeeDetails />}
+					/>
+					<Route
+						path='employee-details/:id'
+						element={<EmployeeDetails />}
+					/>
+					<Route path='add-employee' element={<EmployeeCreate />} />
+					<Route
+						path='edit-employee/:id'
+						element={<EmployeeEdit />}
+					/>
+					<Route path='*' element={<NoMatch />} />
+				</Routes>
+			</main>
 			<Footer />
 		</>
 	)

@@ -34,7 +34,9 @@ const EmployeeDetails = () => {
 
 	return (
 		<Container>
-			<Card style={{width: '18rem'}}>
+			<Card
+				style={{width: '20rem', padding: '10px', margin: '20px auto'}}
+			>
 				<Card.Img variant='top' src={person} />
 				<Card.Body>
 					<Card.Title>
@@ -53,7 +55,7 @@ const EmployeeDetails = () => {
 						{employeeDetails.currentStatus ? 'Working' : 'Retired'}
 					</ListGroup.Item>
 				</ListGroup>
-				<Card.Body>
+				<Card.Body className='text-center'>
 					<Button
 						variant='primary'
 						onClick={() =>
@@ -61,6 +63,13 @@ const EmployeeDetails = () => {
 						}
 					>
 						Edit
+					</Button>
+					<Button
+						className='ms-5'
+						variant='secondary'
+						onClick={() => navigate('/')}
+					>
+						Go Back
 					</Button>
 				</Card.Body>
 			</Card>

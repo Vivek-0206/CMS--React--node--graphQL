@@ -20,19 +20,27 @@ const Admin = () => {
 	// State to store the employee id
 	const [employeeId, setEmployeeId] = useState('')
 
+	const [isDeletable, setIsDeletable] = useState(false)
+
 	// State to store the success and error messages
 	const [isSuccess, setIsSuccess] = useState(false)
+
 	// For Toast messages
 	const [toastSuccess, setToastSuccess] = useState(true)
+	const [toastDelete, setToastDelete] = useState(true)
 
 	// For modal open and close
 	const handleClose = () => {
 		setShow(false)
 		setEmployeeId('')
 	}
-	const handleShow = (employeeId) => {
-		setShow(true)
-		setEmployeeId(employeeId)
+	const handleShow = (employee) => {
+		if (employee.currentStatus) {
+			setIsDeletable(true)
+		} else {
+			setShow(true)
+			setEmployeeId(employee.id)
+		}
 	}
 
 	// For delete employee
@@ -98,6 +106,22 @@ const Admin = () => {
 	return (
 		<>
 			<Container>
+				{isDeletable && (
+					<Toast
+						bg='dark'
+						show={toastDelete}
+						onClose={() => setToastDelete(false)}
+						delay={3000}
+						autohide
+					>
+						<Toast.Header>
+							<strong className='me-auto'>Not Allowed</strong>
+						</Toast.Header>
+						<Toast.Body className='text-white'>
+							CAN'T DELETE EMPLOYEE - STATUS ACTIVE.
+						</Toast.Body>
+					</Toast>
+				)}
 				{isSuccess && (
 					<Toast
 						bg='dark'
@@ -146,6 +170,7 @@ const Admin = () => {
 						<Table striped bordered hover>
 							<thead>
 								<tr>
+									<th>Id</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Age</th>
@@ -161,6 +186,20 @@ const Admin = () => {
 							<tbody>
 								{employeeList.map((employee) => (
 									<tr key={employee.id}>
+										<td>
+											<Button
+												variant='link'
+												onClick={() =>
+													navigate(
+														'/employee-details'.concat(
+															'/' + employee.id
+														)
+													)
+												}
+											>
+												{employee.id}
+											</Button>
+										</td>
 										<td>{employee.firstName}</td>
 										<td>{employee.lastName}</td>
 										<td>{employee.age}</td>
@@ -198,7 +237,7 @@ const Admin = () => {
 											<Button
 												variant='danger'
 												onClick={() =>
-													handleShow(employee.id)
+													handleShow(employee)
 												}
 											>
 												Delete

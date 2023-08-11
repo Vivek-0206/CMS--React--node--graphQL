@@ -1,12 +1,10 @@
 import {Col, Form, Row} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {useQuery} from '@apollo/client'
+import moment from 'moment'
 import React, {useState, useEffect} from 'react'
 
-import {
-	GET_EMPLOYEE_BY_EMPLOYEE_TYPE,
-	GET_EMPLOYEE_LIST_QUERY,
-} from '../graphql/Queries'
+import {GET_EMPLOYEE_LIST_QUERY} from '../graphql/Queries'
 import Cards from './Cards'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -23,6 +21,23 @@ const EmployeeDirectory = () => {
 		setSearchType(event.target.value)
 		if (event.target.value === 'All') {
 			setEmployeeList(data.getAllEmployee)
+		} else if (event.target.value === 'upcoming-retirement') {
+			const newEmployee = data.getAllEmployee.filter((employee) => {
+				const dateOfJoining = moment(
+					moment(employee.dateOfJoining.split('T')[0]).format(
+						'YYYY/MM/DD'
+					)
+				)
+				const todaysDate = moment(moment().format('YYYY/MM/DD'))
+
+				const currentAge =
+					todaysDate.diff(dateOfJoining, 'year') + employee.age
+
+				if (currentAge >= 59) {
+					return employee
+				}
+			})
+			setEmployeeList(newEmployee)
 		} else {
 			setEmployeeList(
 				data.getAllEmployee.filter(
@@ -64,7 +79,7 @@ const EmployeeDirectory = () => {
 	return (
 		<>
 			<Row>
-				<Col>
+				<Col className='col-md-6 col-sm-12'>
 					<Form.Group className='mb-3' controlId='formBasicEmail'>
 						<Form.Label>Search</Form.Label>
 						<Form.Control
@@ -75,40 +90,35 @@ const EmployeeDirectory = () => {
 						/>
 					</Form.Group>
 				</Col>
-				<Col>
-					<div>
-						<Form.Group
-							className='mb-3'
-							controlId='formBasicPassword'
+				<Col className='col-md-6 col-sm-12'>
+					<Form.Group className='mb-3' controlId='formBasicPassword'>
+						<Form.Label>Select Employee Type:</Form.Label>
+						<Form.Select
+							aria-label='Default select example'
+							value={searchType}
+							onChange={handleTypeChange}
 						>
-							<Form.Label>Select Employee Type:</Form.Label>
-							<Form.Select
-								aria-label='Default select example'
-								value={searchType}
-								onChange={handleTypeChange}
-							>
-								<option value='All'>All Employees</option>
-								<option value='Full-time'>
-									Full Time Employees
-								</option>
-								<option value='Part-time'>
-									Part Time Employees
-								</option>
-								<option value='Contract'>
-									Contract Employees
-								</option>
-								<option value='Seasonal'>
-									Seasonal Employees
-								</option>
-							</Form.Select>
-						</Form.Group>
-					</div>
+							<option value='All'>All Employees</option>
+							<option value='Full-time'>
+								Full Time Employees
+							</option>
+							<option value='Part-time'>
+								Part Time Employees
+							</option>
+							<option value='Contract'>Contract Employees</option>
+							<option value='Seasonal'>Seasonal Employees</option>
+							<option value='upcoming-retirement'>
+								Upcoming Retirement
+							</option>
+						</Form.Select>
+					</Form.Group>
 				</Col>
 			</Row>
 			<Row>
 				{employeeList.length > 0 ? (
 					employeeList.map((employee) => (
 						<Col
+							className='col-lg-4 col-md-6 col-sm-12'
 							key={employee.id}
 							onClick={() => {
 								navigate(`/employee-list/${employee.id}`)
