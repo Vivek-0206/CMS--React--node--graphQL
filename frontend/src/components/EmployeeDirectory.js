@@ -22,6 +22,7 @@ const EmployeeDirectory = () => {
 		if (event.target.value === 'All') {
 			setEmployeeList(data.getAllEmployee)
 		} else if (event.target.value === 'upcoming-retirement') {
+			// eslint-disable-next-line array-callback-return
 			const newEmployee = data.getAllEmployee.filter((employee) => {
 				const dateOfJoining = moment(
 					moment(employee.dateOfJoining.split('T')[0]).format(

@@ -1,4 +1,4 @@
-## Assignment 1 Full stack
+## Group Project Full stack
 
 -   Node.js
 -   React
@@ -11,6 +11,4 @@
 -   Run `npm run dev` in the backend folder that will start the server on port `5000`
 -   Run `npm start` in the frontend folder that will start the react app on port `3000`
 
-## Vivek Patel
-
--   8856433
+## Vivek Patel And Nitya patel
