@@ -22,9 +22,7 @@ const startServer = async () => {
 
 	server.applyMiddleware({app})
 
-	await mongoose.connect(
-		'mongodb+srv://vivek:vivek@test.gkbzj8b.mongodb.net/Assignment1?retryWrites=true&w=majority'
-	)
+	await mongoose.connect('MONGODB_URL')
 
 	app.listen(port, () => {
 		console.log(`--> Server is listening at http://localhost:${port}`)
